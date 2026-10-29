@@ -1,0 +1,745 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #F7F4EF;
+  --color-foreground: #6E5A4F;
+  --radius-lg: 1.5rem;
+  
+  /* Expanded ATTACHAI-only color palette - no greys, blues, or tech colors */
+  /* Primary text colors - warm taupes only */
+  --color-text-primary: #6E5A4F;
+  --color-text-secondary: #8B7355;
+  --color-text-muted: #B8A896;
+  
+  /* Background tokens */
+  --color-card-bg: rgba(255, 255, 255, 0.40);
+  
+  /* Core brand accent colors */
+  --color-accent-bronze: #B08A64;
+  --color-accent-champagne: #D8C8A8;
+  --color-accent-sage: #8B9D83;
+  
+  /* Alert/Status colors - ATTACHAI palette only */
+  --color-alert-positive: #8B9D83;  /* Muted sage for positive states */
+  --color-alert-attention: #B08A64; /* Soft bronze for urgent/attention */
+  --color-alert-warning: #C9A876;   /* Warm champagne gold for warnings */
+  --color-alert-neutral: #D8C8A8;   /* Champagne for neutral states */
+  
+  /* Extended warm palette - ivory, sand, clay, beige */
+  --color-warm-ivory: #F7F4EF;
+  --color-warm-sand: #EAE3D6;
+  --color-warm-champagne: #D8C8A8;
+  --color-warm-clay: #C9A876;
+  --color-warm-taupe: #B8A896;
+  --color-warm-shadow: #8B7355;
+  --color-warm-beige: #A08968;
+}
+
+/* ATTACHAI unified card sizing tokens (outside @theme) */
+:root {
+  --att-card-radius: 24px;
+  --att-card-padding-x: 24px;
+  --att-card-padding-y: 18px;
+  --att-card-gap-y: 8px;
+  --att-card-stack-gap: 16px;
+  --att-card-metric-padding-x: 20px;
+  --att-card-metric-padding-y: 16px;
+  
+  /* Adding comprehensive ATTACHAI spacing system */
+  /* Page-level spacing */
+  --att-page-padding-mobile: 1rem;        /* 16px */
+  --att-page-padding-tablet: 2rem;        /* 32px */
+  --att-page-padding-desktop: 5rem;       /* 80px */
+  
+  --att-page-padding-top-mobile: 1.5rem;  /* 24px */
+  --att-page-padding-top-tablet: 2.5rem;  /* 40px */
+  --att-page-padding-top-desktop: 3rem;   /* 48px */
+  
+  --att-page-padding-bottom-mobile: 4rem; /* 64px */
+  --att-page-padding-bottom-tablet: 5rem; /* 80px */
+  --att-page-padding-bottom-desktop: 6rem;/* 96px */
+  
+  /* Header spacing */
+  --att-header-margin-mobile: 0.75rem;    /* 12px */
+  --att-header-margin-tablet: 1.5rem;     /* 24px */
+  --att-header-margin-desktop: 2.5rem;    /* 40px */
+  
+  /* Card spacing */
+  --att-card-gap-mobile: 0.75rem;         /* 12px */
+  --att-card-gap-tablet: 1rem;            /* 16px */
+  --att-card-gap-desktop: 1.5rem;         /* 24px */
+  
+  --att-card-padding-mobile: 0.75rem;     /* 12px */
+  --att-card-padding-tablet: 1.25rem;     /* 20px */
+  --att-card-padding-desktop: 1.5rem;     /* 24px */
+  
+  --att-card-content-padding-small: 1.25rem; /* 20px - for metric cards */
+  --att-card-content-padding-medium: 1.5rem; /* 24px - for standard cards */
+  --att-card-content-padding-large: 2rem;    /* 32px - for modal/detail cards */
+  
+  /* Section spacing */
+  --att-section-gap-mobile: 1rem;         /* 16px */
+  --att-section-gap-tablet: 1.5rem;       /* 24px */
+  --att-section-gap-desktop: 2rem;        /* 32px */
+  
+  /* Grid gaps */
+  --att-grid-gap-mobile: 0.75rem;         /* 12px */
+  --att-grid-gap-tablet: 1rem;            /* 16px */
+  --att-grid-gap-desktop: 1rem;           /* 16px */
+}
+
+* {
+  border-color: rgba(216, 200, 168, 0.2);
+}
+
+body {
+  background-color: #F7F4EF;
+  color: #6E5A4F;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* Adding comprehensive typography utility classes for uniformity */
+@layer utilities {
+  /* Added global overflow prevention utilities */
+  .prevent-horizontal-scroll {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .safe-viewport {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .responsive-container {
+    width: 100%;
+    max-width: 100vw;
+    padding-left: clamp(1rem, 3vw, 5rem);
+    padding-right: clamp(1rem, 3vw, 5rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Mobile-optimized card grid system */
+  .card-grid-responsive {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+  
+  @media (min-width: 768px) {
+    .card-grid-responsive {
+      gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .card-grid-responsive {
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+  }
+  
+  /* Responsive text truncation utilities */
+  .text-truncate-mobile {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  @media (min-width: 768px) {
+    .text-truncate-mobile {
+      overflow: visible;
+      text-overflow: clip;
+      white-space: normal;
+    }
+  }
+  
+  /* Icon scaling utilities */
+  .icon-responsive {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .icon-responsive {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .icon-responsive {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  /* H1 Page Titles - Spectral, ALL CAPS, 28px desktop */
+  .text-h1 {
+    font-family: var(--font-spectral), serif;
+    font-size: 1.75rem; /* 28px */
+    font-weight: 500;
+    color: #6E5A4F;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  /* Mobile/Tablet H1 - 20px */
+  @media (max-width: 1023px) {
+    .text-h1 {
+      font-size: 1.25rem; /* 20px - 30% reduction */
+    }
+  }
+
+  /* H2 Section Headers - Spectral, SMALL CAPS/ALL CAPS, 18px */
+  .text-h2 {
+    font-family: var(--font-spectral), serif;
+    font-size: 1.125rem; /* 18px */
+    font-weight: 500;
+    color: #6E5A4F;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  /* Mobile/Tablet H2 - 14px */
+  @media (max-width: 1023px) {
+    .text-h2 {
+      font-size: 0.875rem; /* 14px */
+    }
+  }
+
+  /* H3 Card Section Headers - Spectral, CAPS, 14px */
+  .text-h3 {
+    font-family: var(--font-spectral), serif;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: #6E5A4F;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* Mobile/Tablet H3 - 11px */
+  @media (max-width: 1023px) {
+    .text-h3 {
+      font-size: 0.6875rem; /* 11px */
+    }
+  }
+
+  /* Body Text - Basis Grotesque, 14px */
+  .text-body {
+    font-family: var(--font-basis-grotesque), sans-serif;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 400;
+    color: #6E5A4F;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+  }
+
+  /* Mobile/Tablet Body - 12px */
+  @media (max-width: 1023px) {
+    .text-body {
+      font-size: 0.75rem; /* 12px */
+    }
+  }
+
+  /* Labels/Buttons - Basis Grotesque, 13px */
+  .text-label {
+    font-family: var(--font-basis-grotesque), sans-serif;
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 400;
+    color: #6E5A4F;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+
+  /* Meta/Secondary Text - Basis Grotesque, 11px */
+  .text-meta {
+    font-family: var(--font-basis-grotesque), sans-serif;
+    font-size: 0.6875rem; /* 11px */
+    font-weight: 400;
+    color: #8B7355;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+  }
+
+  /* Page Titles - Spectral Serif, Largest */
+  .text-page-title {
+    font-family: var(--font-spectral), serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #6E5A4F;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+
+  /* Section Headers - Spectral Serif, Uppercase */
+  .text-section-header {
+    font-family: var(--font-spectral), serif;
+    font-size: 0.625rem;
+    font-weight: 300;
+    color: #6E5A4F;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* Card Titles - Spectral Serif */
+  .text-card-title {
+    font-family: var(--font-spectral), serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #6E5A4F;
+    letter-spacing: 0.025em;
+    line-height: 1.4;
+  }
+
+  /* Updated all body text classes to use Basis Grotesque instead of Inter */
+  /* Body Text - Basis Grotesque Sans, Standard */
+  /* Body Small - Basis Grotesque Sans */
+  .text-body-sm {
+    font-family: var(--font-basis-grotesque), sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #6E5A4F;
+    letter-spacing: 0.025em;
+    line-height: 1.5;
+  }
+
+  /* Micro Text - Basis Grotesque Sans, Labels/Metadata */
+  .text-micro {
+    font-family: var(--font-basis-grotesque), sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 300;
+    color: #B8A896;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* Interactive Text - Basis Grotesque Sans, Buttons/Links */
+  .text-interactive {
+    font-family: var(--font-basis-grotesque), sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: #6E5A4F;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+  }
+
+  /* Removed status utility classes to prevent Tailwind JIT compiler errors */
+  /* Status classes are now applied via inline Tailwind styles with arbitrary values */
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroll-smooth-touch {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Adding standardized spacing utility classes */
+  
+  /* Page Container - Standardized padding for all pages */
+  .att-page-container {
+    width: 100%;
+    max-width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--att-page-padding-mobile);
+    padding-right: var(--att-page-padding-mobile);
+    padding-top: var(--att-page-padding-top-mobile);
+    padding-bottom: var(--att-page-padding-bottom-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .att-page-container {
+      max-width: 100%;
+      padding-left: var(--att-page-padding-tablet);
+      padding-right: var(--att-page-padding-tablet);
+      padding-top: var(--att-page-padding-top-tablet);
+      padding-bottom: var(--att-page-padding-bottom-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .att-page-container {
+      max-width: 1100px;
+      padding-left: var(--att-page-padding-desktop);
+      padding-right: var(--att-page-padding-desktop);
+      padding-top: var(--att-page-padding-top-desktop);
+      padding-bottom: var(--att-page-padding-bottom-desktop);
+    }
+  }
+  
+  /* Page Header Spacing - Consistent margin below page headers */
+  .att-header-spacing {
+    margin-bottom: var(--att-header-margin-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .att-header-spacing {
+      margin-bottom: var(--att-header-margin-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .att-header-spacing {
+      margin-bottom: var(--att-header-margin-desktop);
+    }
+  }
+  
+  /* Card Stack Spacing - Vertical spacing between cards */
+  .att-card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--att-card-gap-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .att-card-stack {
+      gap: var(--att-card-gap-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .att-card-stack {
+      gap: var(--att-card-gap-desktop);
+    }
+  }
+  
+  /* Card Padding - Standard internal padding for cards */
+  .att-card-padding-sm {
+    padding: var(--att-card-content-padding-small);
+  }
+  
+  .att-card-padding-md {
+    padding: var(--att-card-content-padding-medium);
+  }
+  
+  .att-card-padding-lg {
+    padding: var(--att-card-content-padding-large);
+  }
+  
+  /* Responsive Card Padding */
+  .att-card-padding-responsive {
+    padding: var(--att-card-padding-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .att-card-padding-responsive {
+      padding: var(--att-card-padding-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .att-card-padding-responsive {
+      padding: var(--att-card-padding-desktop);
+    }
+  }
+  
+  /* Section Spacing - Vertical gaps between major sections */
+  .att-section-spacing {
+    display: flex;
+    flex-direction: column;
+    gap: var(--att-section-gap-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .att-section-spacing {
+      gap: var(--att-section-gap-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .att-section-spacing {
+      gap: var(--att-section-gap-desktop);
+    }
+  }
+  
+  /* Grid Gap - Consistent spacing in grid layouts */
+  .att-grid-gap {
+    gap: var(--att-grid-gap-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .att-grid-gap {
+      gap: var(--att-grid-gap-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .att-grid-gap {
+      gap: var(--att-grid-gap-desktop);
+    }
+  }
+}
+
+/* Sanctuary Animations */
+@keyframes sanctuary-drift {
+  0% {
+    transform: translateY(0) scale(1.08);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-2.5%) scale(1.08);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(0) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes sanctuary-shimmer {
+  0%, 100% {
+    filter: brightness(1) saturate(0.88);
+  }
+  33% {
+    filter: brightness(1.03) saturate(0.9);
+  }
+  66% {
+    filter: brightness(0.98) saturate(0.86);
+  }
+}
+
+@keyframes sanctuary-fade {
+  0%, 94%, 100% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.93;
+  }
+}
+
+.sanctuary-background {
+  position: fixed;
+  top: -4%;
+  left: -4%;
+  width: 108%;
+  height: 108%;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation:
+    sanctuary-drift 32s cubic-bezier(0.4, 0.0, 0.2, 1) infinite,
+    sanctuary-shimmer 18s ease-in-out infinite,
+    sanctuary-fade 35s ease-in-out infinite;
+}
+
+.sanctuary-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 65% 55% at 50% 45%,
+    rgba(247, 244, 239, 0.35) 0%,
+    rgba(247, 244, 239, 0.45) 30%,
+    rgba(247, 244, 239, 0.6) 60%,
+    rgba(247, 244, 239, 0.75) 85%,
+    rgba(247, 244, 239, 0.8) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sanctuary-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(213, 200, 186, 0.22) 0%,
+    rgba(233, 223, 206, 0.18) 50%,
+    rgba(213, 200, 186, 0.24) 100%
+  );
+  mix-blend-mode: overlay;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sanctuary-background {
+    animation: none;
+  }
+}
+
+/* Ambient Animations */
+@keyframes ambient-breathe {
+  0%, 100% {
+    opacity: 0.15;
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 0.22;
+    filter: blur(2px);
+  }
+}
+
+@keyframes ambient-light-shift {
+  0% {
+    transform: translateX(-1%);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateX(1%);
+    opacity: 0.18;
+  }
+  100% {
+    transform: translateX(-1%);
+    opacity: 0.12;
+  }
+}
+
+@keyframes ambient-blur-pulse {
+  0%, 100% {
+    backdrop-filter: blur(1px);
+  }
+  50% {
+    backdrop-filter: blur(2px);
+  }
+}
+
+@keyframes ambient-shadow-drift {
+  0%, 100% {
+    box-shadow:
+      inset 0 8px 24px rgba(201, 168, 118, 0.04),
+      inset 0 -8px 24px rgba(139, 115, 85, 0.03);
+  }
+  50% {
+    box-shadow:
+      inset 0 12px 32px rgba(201, 168, 118, 0.06),
+      inset 0 -12px 32px rgba(139, 115, 85, 0.05);
+  }
+}
+
+.ambient-breathe-layer {
+  background: linear-gradient(
+    135deg,
+    rgba(247, 244, 239, 0.1) 0%,
+    rgba(216, 200, 168, 0.08) 50%,
+    rgba(247, 244, 239, 0.1) 100%
+  );
+  animation: ambient-breathe 12s ease-in-out infinite;
+  will-change: opacity, filter;
+}
+
+.ambient-light-shift {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 168, 118, 0.06) 50%,
+    transparent 100%
+  );
+  animation: ambient-light-shift 30s linear infinite;
+  will-change: transform, opacity;
+}
+
+.ambient-blur-pulse {
+  animation: ambient-blur-pulse 18s ease-in-out infinite,
+             ambient-shadow-drift 24s ease-in-out infinite;
+  will-change: backdrop-filter, box-shadow;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-breathe-layer,
+  .ambient-light-shift,
+  .ambient-blur-pulse {
+    animation: none;
+  }
+}
+
+/* General Animations */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 500px;
+    opacity: 1;
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(0.97);
+    opacity: 0.98;
+  }
+  50% {
+    transform: scale(0.96);
+    opacity: 0.96;
+  }
+  70% {
+    transform: scale(0.97);
+    opacity: 0.98;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
